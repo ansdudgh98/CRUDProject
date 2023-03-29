@@ -1,0 +1,48 @@
+## LOGIN
+### 존재하지 않는 아이디
+POST http://localhost:8080/api/account/login
+Content-Type: application/json
+
+{
+  "loginId" : "123123123",
+  "loginPassword" : "123123123"
+}
+
+### 틀린 비밀번호
+POST http://localhost:8080/api/account/login
+Content-Type: application/json
+
+{
+  "loginId" : "test1",
+  "loginPassword" : "123123123"
+}
+
+###성공하는 로그인
+POST http://localhost:8080/api/account/login
+Content-Type: application/json
+
+{
+  "loginId" : "test1",
+  "loginPassword" : "test1"
+}
+
+###아무값도 없는 값
+POST http://localhost:8080/api/account/login
+Content-Type: application/json
+
+{
+  "loginId" : "",
+  "loginPassword" : ""
+}
+###LOGOUT
+GET http://localhost:8080/api/account/logout
+
+###회원가입
+POST http://localhost:8080/api/account/signup
+Content-Type: application/json
+
+{
+  "signupId": "test1",
+  "signupPw": "test1",
+  "email" : "test@test.com"
+}
