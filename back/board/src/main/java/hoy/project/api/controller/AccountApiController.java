@@ -25,40 +25,41 @@ public class AccountApiController {
 
     @GetMapping
     public ResponseEntity<UserResponse> sessionInit(HttpSession session){
+
         createGuestSession(session);
 
-        return new ResponseEntity<>(new UserResponse(SessionConst.GUEST),HttpStatus.OK);
+        return ResponseEntity.ok(new UserResponse(SessionConst.GUEST));
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginForm loginForm, HttpSession session){
         Account login = accountService.login(loginForm.getLoginId(), loginForm.getLoginPassword());
-
         createAccountSession(session, login);
 
-        return new ResponseEntity<>(new UserResponse(login.getUserId()),HttpStatus.OK);
+        return ResponseEntity.ok(new UserResponse(login.getUserId()));
     }
 
 
     @GetMapping("/logout")
     public ResponseEntity<UserResponse> logout(HttpSession session){
         createGuestSession(session);
-        return new ResponseEntity<>(new UserResponse(SessionConst.GUEST), HttpStatus.OK);
+        return ResponseEntity.ok(new UserResponse(SessionConst.GUEST));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponse> signup(@Valid @RequestBody SignupForm signupForm, HttpSession session){
 
         Account account = Account.createAccount(signupForm.getSignupId(), signupForm.getSignupPw(), signupForm.getEmail());
+
         accountService.createAccount(account);
 
         createAccountSession(session,account);
 
-        return new ResponseEntity<>(new UserResponse(account.getUserId()),HttpStatus.OK);
+        return ResponseEntity.ok(new UserResponse(account.getUserId()));
     }
 
-    private void createAccountSession(HttpSession session, Account login) {
-        session.setAttribute(SessionConst.ACCOUNT, login.getUserId());
+    private void createAccountSession(HttpSession session, Account account) {
+        session.setAttribute(SessionConst.ACCOUNT, account.getUserId());
         session.setMaxInactiveInterval(3600);
     }
 
