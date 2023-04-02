@@ -3,12 +3,13 @@ package hoy.project.api.controller.dto.request.form;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Getter
 public class SignupForm {
 
-    @NotBlank(message = "아이디를 입력해주세요.")
+    @NotEmpty(message = "아이디를 입력해주세요.")
     @Pattern(regexp = "^[a-z]+[a-z0-9]{4,10}$",message = "올바른 아이디 형식을 입력해주세요.")
     private String signupId;
 
