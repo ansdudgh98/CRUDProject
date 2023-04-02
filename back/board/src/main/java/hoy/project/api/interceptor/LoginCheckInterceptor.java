@@ -16,14 +16,15 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         String requestURI = request.getRequestURI();
         log.info("인증 체크 인터셉터 실행 {}",requestURI);
-
         HttpSession session = request.getSession();
+
         if(session == null || session.getAttribute(SessionConst.ACCOUNT) == null){
             return false;
         }
         if(session.getAttribute(SessionConst.ACCOUNT).toString().equals(SessionConst.GUEST)){
             return false;
         }
+
         return true;
     }
 }
