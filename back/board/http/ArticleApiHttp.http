@@ -1,0 +1,11 @@
+### 게시글 작성
+POST http://localhost:8080/api/article/post
+Content-Type: application/json
+
+{
+  "title": "hihi",
+  "content": "hihi"
+}
+
+### 게시글 확인
+GET http://localhost:8080/api/article/100000
