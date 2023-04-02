@@ -6,11 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,10 +36,6 @@ class AccountServiceImplTest {
     @DisplayName("회원 생성 성공 테스트")
     void createAccountTest() {
         Account account = AccountService.createAccount(Account.createAccount("test123", "test123", "test@test.org"));
-
-        em.flush();
-        em.clear();
-
 
         Account findAccount = em.find(Account.class, account.getId());
 

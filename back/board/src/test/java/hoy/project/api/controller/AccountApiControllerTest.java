@@ -8,7 +8,10 @@ import hoy.project.api.controller.session.SessionConst;
 import hoy.project.domain.Account;
 import hoy.project.repository.AccountRepository;
 import hoy.project.service.AccountService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +41,7 @@ class AccountApiControllerTest {
     @Autowired
     AccountRepository accountRepository;
 
+
     ObjectMapper objectMapper = new ObjectMapper();
     MockHttpSession session = new MockHttpSession();
 
@@ -53,14 +57,15 @@ class AccountApiControllerTest {
 
     @BeforeEach
     public void initSession(){
-        session.setAttribute(SessionConst.ACCOUNT,SessionConst.GUEST);
+            session.setAttribute(SessionConst.ACCOUNT,SessionConst.GUEST);
     }
 
     @AfterEach
-    public void clean(){
+    public void after(){
         accountRepository.deleteAll();
-        session.clearAttributes();
     }
+
+
 
 
     @Test
