@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:crudproject;MODE=MYSQL
+    url: jdbc:h2:mem:crudproject
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -11,12 +11,10 @@ spring:
       table-name: SPRING_SESSION
 
   jpa:
-    database: mysql
+    database: h2
     properties:
       hibernate:
         ddl-auto: create
-        format_sql: true
-
 
   h2:
     console:
