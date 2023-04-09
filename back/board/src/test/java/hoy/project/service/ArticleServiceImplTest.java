@@ -89,7 +89,7 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("게시물 읽기 실패 테스트 - 없는 게시물 번호 조회")
     public void readArticleTest2(){
-        assertThrows(NoSuchElementException.class,()->articleService.readArticle(Long.MAX_VALUE));
+        assertThrows(IllegalArgumentException.class,()->articleService.readArticle(Long.MAX_VALUE));
     }
 
     @Test

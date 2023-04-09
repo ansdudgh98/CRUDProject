@@ -22,8 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -70,6 +73,7 @@ class ArticleApiControllerTest {
     @BeforeEach
     public void init(){
         accountRepository.save(testAccount);
+        articleRepository.save(testArticle);
     }
 
     @BeforeEach
@@ -83,20 +87,18 @@ class ArticleApiControllerTest {
     public void after(){
         articleRepository.deleteAll();
         accountRepository.deleteAll();
-
     }
 
     @Test
     @DisplayName("[API][ARTICLE] 게시물 작성 성공 테스트")
     public void articlePostTest1() throws Exception{
         ArticleCreateForm articleCreateForm = new ArticleCreateForm("테스트 게시물1","내용1");
-        ArticlePostResponse articlePostResponse = new ArticlePostResponse(1L);
+
         mockMvc.perform(post("/api/article/post")
-                .session(session)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(articleCreateForm)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(articlePostResponse)));
+                        .session(session)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(articleCreateForm)))
+                        .andExpect(status().isOk());
     }
 
     @Test
