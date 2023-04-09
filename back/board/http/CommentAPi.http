@@ -1,0 +1,14 @@
+
+POST http://localhost:8080/api/account/login
+Content-Type: application/json
+
+{
+  "loginId" : "testId1",
+  "loginPassword" : "test1"
+}
+
+###
+GET http://localhost:8080/api/comment/9?articleId=1
+
+###
+GET http://localhost:8080/api/comment/delete/2
