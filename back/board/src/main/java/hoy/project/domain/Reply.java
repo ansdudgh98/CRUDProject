@@ -2,10 +2,12 @@ package hoy.project.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Reply extends BaseEntity{
@@ -26,9 +28,15 @@ public class Reply extends BaseEntity{
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Builder
-    public Reply(String content, Comment comment) {
+    public Reply(String content, Comment comment, Account account) {
         this.content = content;
         this.comment = comment;
+        this.account = account;
     }
+
+    public void changeReply(String content){
+        this.content = content;
+    }
+
+
 }
