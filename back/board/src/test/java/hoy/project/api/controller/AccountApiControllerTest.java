@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.persistence.EntityManager;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -41,6 +43,8 @@ class AccountApiControllerTest {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    EntityManager em;
 
     ObjectMapper objectMapper = new ObjectMapper();
     MockHttpSession session = new MockHttpSession();
@@ -61,12 +65,9 @@ class AccountApiControllerTest {
     }
 
     @AfterEach
-    public void after(){
+    public void delete(){
         accountRepository.deleteAll();
     }
-
-
-
 
     @Test
     @DisplayName("[API][ACCOUNT]로그인 성공 테스트 - 로그인 성공시 헤더에는 세션을 바디에는 상태코드 200과 userId를 내려준다.")
