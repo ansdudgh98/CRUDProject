@@ -29,9 +29,13 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "article_id")
     private Article article;
 
-    @Builder
-    public Comment(String content, Account account) {
+    public Comment(String content, Account account, Article article) {
         this.content = content;
         this.account = account;
+        this.article = article;
+    }
+
+    public void editComment(String content){
+        this.content = content;
     }
 }
