@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'openjdk'
+        distribution: 'adopt'
 
     - name: permission for gradlew    
       run : chmod +x ./back/board/gradlew
