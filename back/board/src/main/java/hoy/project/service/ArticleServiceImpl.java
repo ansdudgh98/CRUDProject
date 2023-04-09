@@ -11,7 +11,6 @@ import hoy.project.domain.Article;
 import hoy.project.domain.View;
 import hoy.project.repository.AccountRepository;
 import hoy.project.repository.ArticleRepository;
-import hoy.project.repository.ViewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

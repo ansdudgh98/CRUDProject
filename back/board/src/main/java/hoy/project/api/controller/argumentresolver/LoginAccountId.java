@@ -1,4 +1,4 @@
-package hoy.project.domain;
+package hoy.project.api.controller.argumentresolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

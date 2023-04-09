@@ -6,7 +6,7 @@ import hoy.project.api.controller.dto.response.article.ArticleDeleteResponse;
 import hoy.project.api.controller.dto.response.article.ArticleEditResponse;
 import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
-import hoy.project.domain.LoginAccountId;
+import hoy.project.api.controller.argumentresolver.LoginAccountId;
 import hoy.project.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
