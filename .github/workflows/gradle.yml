@@ -12,10 +12,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    # - name: kill java app
-    #   run:
-    #     pkill -x java
-
     - uses: actions/checkout@v3
       with:
         clean: false
