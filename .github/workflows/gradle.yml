@@ -15,7 +15,9 @@ jobs:
     - uses: actions/checkout@v3
       with:
         clean: false
-
+    - name: kill old server
+      run : |
+        killall -9 java || true    
     - name: permission for gradlew
       run : chmod +x ./back/board/gradlew
 
