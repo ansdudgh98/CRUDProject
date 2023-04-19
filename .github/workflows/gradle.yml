@@ -24,7 +24,7 @@ jobs:
     - name: gradle build
       run : |
         cd back/board
-        ./gradlew clean build -x test
+        ./gradlew build
     - name: exec
       env:
         RUNNER_TRACKING_ID: ""
