@@ -7,22 +7,19 @@ import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import hoy.project.repository.AccountRepository;
+import hoy.project.repository.ArticleRepository;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@Transactional
 class ArticleServiceImplTest {
 
 
@@ -30,18 +27,14 @@ class ArticleServiceImplTest {
     ArticleService articleService;
 
     @Autowired
+    ArticleRepository articleRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
     EntityManager em;
 
-    Account account = new Account("test123", "test123", "test123@test.com");
-    Article article = new Article("테스트 게시물1", "테스트 게시물 내용1", account);
-
-    @BeforeEach
-    public void init(){
-        em.persist(account);
-        em.persist(article);
-        em.flush();
-        em.clear();
-    }
 
     @Test
     @DisplayName("게시물 생성 성공 테스트")
@@ -80,6 +73,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("게시물 읽기 성공 테스트")
     public void readArticleTest1(){
+
+        Account account = new Account("test1", "test1", "mytest@email.com");
+        Article article = new Article("myArticle","myArticle",account);
+
+        accountRepository.save(account);
+        articleRepository.save(article);
+
         ArticleReadResponse articleReadResponse = articleService.readArticle(article.getId());
         assertThat(articleReadResponse.getUserId()).isEqualTo(article.getAccount().getUserId());
         assertThat(articleReadResponse.getContent()).isEqualTo(article.getContent());
@@ -95,6 +95,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("게시물 수정 성공 테스트")
     public void editArticleTest1() {
+
+        Account account = new Account("test0", "test0", "mytest@email.com");
+        Article article = new Article("myArticle1","myArticle1",account);
+
+        accountRepository.save(account);
+        articleRepository.save(article);
+
         ArticleEditForm articleEditForm = new ArticleEditForm("수정 테스트 게시물1", "수정 테스트");
         ArticleEditResponse articleEditResponse = articleService.editArticle(articleEditForm, article.getId(), account.getUserId());
 
@@ -107,6 +114,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("게시물 수정 실패 테스트 - 작성자의 account가 다를 때")
     public void editArticleTest2(){
+
+        Account account = new Account("test2", "test1", "mytest@email.com");
+        Article article = new Article("myArticle2","myArticle",account);
+
+        accountRepository.save(account);
+        articleRepository.save(article);
+
         ArticleEditForm articleEditForm = new ArticleEditForm("수정 테스트 게시물1", "수정 테스트");
         Account newAccount = new Account("newid","1234","test@test.com");
         assertThrows(IllegalArgumentException.class, ()->articleService.editArticle(articleEditForm,article.getId(),newAccount.getUserId()));
@@ -115,11 +129,17 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("게시물 삭제 성공 테스트")
     public void deleteArticleTest(){
+
+        Account account = new Account("test3", "test2", "mytest@email.com");
+        Article article = new Article("myArticle3","myArticle3",account);
+
+        accountRepository.save(account);
+        articleRepository.save(article);
+
         articleService.deleteArticle(article.getId(), account.getUserId());
         Article findArticle = em.find(Article.class, article.getId());
 
         assertThat(findArticle.getActive()).isEqualTo(0);
-
     }
 
 

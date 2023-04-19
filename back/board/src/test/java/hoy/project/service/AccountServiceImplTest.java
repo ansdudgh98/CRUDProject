@@ -1,6 +1,8 @@
 package hoy.project.service;
 
 import hoy.project.domain.Account;
+import hoy.project.repository.AccountRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,28 +16,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@Transactional
 class AccountServiceImplTest {
 
-
     @Autowired
-    AccountService AccountService;
+    AccountService accountService;
 
     @Autowired
     EntityManager em;
 
-
-    @BeforeEach
-    void init() {
-        em.persist(Account.createAccount("test", "1234", "test@test.org"));
-        em.flush();
-        em.clear();
-    }
+    @Autowired
+    AccountRepository accountRepository;
 
     @Test
     @DisplayName("회원 생성 성공 테스트")
     void createAccountTest() {
-        Account account = AccountService.createAccount(Account.createAccount("test123", "test123", "test@test.org"));
+        Account account = accountService.createAccount(Account.createAccount("test123", "test123", "test@test.org"));
 
         Account findAccount = em.find(Account.class, account.getId());
 
@@ -45,17 +40,17 @@ class AccountServiceImplTest {
     @Test
     @DisplayName("로그인 성공 테스트")
     void loginTest() {
-        Account loginAccount = AccountService.login("test", "1234");
-        Account findAccount = em.createQuery("select m from Account m where m.userId = 'test'", Account.class).getSingleResult();
+        Account saveAccount = accountRepository.save(new Account("test", "1234", "test@test.com"));
+        Account loginAccount = accountService.login("test", "1234");
 
-        assertThat(loginAccount.getId()).isEqualTo(findAccount.getId());
+        assertThat(loginAccount.getId()).isEqualTo(saveAccount.getId());
     }
 
     @Test
     @DisplayName("로그인 실패 틀린 아이디 테스트")
     void loginWrongLoginIdTest() {
         assertThrows(IllegalArgumentException.class, () -> {
-            AccountService.login("wrongid", "0000");
+            accountService.login("wrongid", "0000");
         });
     }
 
@@ -63,7 +58,7 @@ class AccountServiceImplTest {
     @DisplayName("로그인 실패 틀린 비밀번호 테스트")
     void loginWrongLoginPasswordTest() {
         assertThrows(IllegalArgumentException.class, () -> {
-            AccountService.login("test", "0000");
+            accountService.login("test", "0000");
         });
     }
 
