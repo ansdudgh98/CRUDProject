@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="144.24.89.35" id="30979362-5300-45e0-a546-064b1d21d7c4" keyPath="$PROJECT_DIR$/../../../oracle/ssh-key-2023-04-10.key" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+      <sshConfig host="129.154.56.238" id="45620ee9-6034-4c88-afbb-cbd65c725f8b" keyPath="$PROJECT_DIR$/../../../oracle/ssh-key-2023-04-10.key" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
