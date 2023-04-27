@@ -1,9 +1,8 @@
-package hoy.project;
+package hoy.project.p6spy;
 
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 import org.hibernate.engine.jdbc.internal.FormatStyle;
-import org.springframework.validation.MessageCodeFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
