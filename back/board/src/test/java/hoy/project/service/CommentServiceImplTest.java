@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-class CommentServiceTest {
+class CommentServiceImplTest {
 
     @Autowired
     CommentService commentService;
