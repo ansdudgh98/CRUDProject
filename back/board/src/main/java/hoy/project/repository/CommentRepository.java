@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -16,11 +17,10 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     @Query(value = "select cm from Comment cm " +
             "join fetch cm.account " +
             "where cm.article.id = :articleId and cm.active = 1")
-    Slice<Comment> findSliceComments(Long articleId, Pageable pageable);
+    Slice<Comment> findSliceComments(@Param("articleId") Long articleId, Pageable pageable);
 
     @Query(value = "select cm from Comment cm " +
             "join fetch cm.account " +
             "where cm.id = :commentId")
-    Comment findCommentsById(Long commentId);
-
+    Comment findCommentsById(@Param("commentId") Long commentId);
 }

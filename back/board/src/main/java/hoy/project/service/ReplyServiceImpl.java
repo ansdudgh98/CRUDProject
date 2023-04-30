@@ -1,6 +1,7 @@
 package hoy.project.service;
 
 import hoy.project.api.controller.dto.request.form.ReplyForm;
+import hoy.project.api.controller.dto.response.reply.ReplyDeleteResponse;
 import hoy.project.api.controller.dto.response.reply.ReplyReadListResponse;
 import hoy.project.api.controller.dto.response.reply.ReplyReadResponse;
 import hoy.project.api.controller.dto.response.reply.ReplyWriteAndEditResponse;
@@ -35,6 +36,10 @@ public class ReplyServiceImpl implements ReplyService {
         Account account = accountRepository.findByUserId(userId);
         Comment comment = commentRepository.findCommentById(commentId);
 
+        if(comment == null){
+            throw new IllegalArgumentException("존재하지 않는 댓글에 대댓글을 작성은 불가능 합니다!");
+        }
+
         Reply reply = new Reply(replyForm.getContent(), comment, account);
 
         replyRepository.save(reply);
@@ -48,8 +53,13 @@ public class ReplyServiceImpl implements ReplyService {
         Account account = accountRepository.findByUserId(userId);
         Reply reply = replyRepository.findReplyById(replyId);
 
+
+        if(reply == null){
+            throw new IllegalArgumentException("존재하지 않는 대댓글입니다.");
+        }
+
         if (!reply.getAccount().equals(account)) {
-            new IllegalArgumentException("게시글을 수정할 권한이 없습니다.");
+            throw new IllegalArgumentException("대댓글을 수정할 권한이 없습니다.");
         }
 
         reply.changeReply(replyForm.getContent());
@@ -66,21 +76,22 @@ public class ReplyServiceImpl implements ReplyService {
         List<ReplyReadResponse> listReply = sliceReplies.getContent().stream()
                 .map(reply -> new ReplyReadResponse(reply.getId(), reply.getContent(), reply.getAccount().getUserId(), reply.getCreatedDate(), reply.getLastModifiedDate()))
                 .sorted(Comparator.comparing(ReplyReadResponse::getModifiedDateTime).reversed())
-                .sorted().collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         return new ReplyReadListResponse(sliceReplies.hasNext(), listReply);
     }
 
     @Override
-    public void deActive(Long replyId, String userId) {
+    public ReplyDeleteResponse deActive(Long replyId, String userId) {
         Account account = accountRepository.findByUserId(userId);
         Reply reply = replyRepository.findReplyById(replyId);
 
         if (!reply.getAccount().equals(account)) {
-            new IllegalArgumentException("게시글을 삭제할 권한이 없습니다.");
+            throw new IllegalArgumentException("게시글을 삭제할 권한이 없습니다.");
         }
 
         reply.deActive();
+        return new ReplyDeleteResponse();
     }
 
 }

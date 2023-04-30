@@ -1,6 +1,7 @@
 package hoy.project.service;
 
 import hoy.project.api.controller.dto.request.form.CommentForm;
+import hoy.project.api.controller.dto.response.comment.CommentDeleteResponse;
 import hoy.project.api.controller.dto.response.comment.*;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
@@ -34,6 +35,10 @@ public class CommentServiceImpl implements CommentService {
         Article article = articleRepository.findArticleById(articleId);
         Account account = accountRepository.findByUserId(userId);
 
+        if(article == null){
+            throw new IllegalArgumentException("존재하지 않는 게시물에 댓글을 작성하려고 합니다.");
+        }
+
         Comment comment = new Comment(commentForm.getContent(),account,article);
 
         commentRepository.save(comment);
@@ -47,9 +52,14 @@ public class CommentServiceImpl implements CommentService {
         Account account = accountRepository.findByUserId(userId);
         Comment findComment = commentRepository.findCommentById(commentId);
 
+        if(findComment == null){
+            throw new IllegalArgumentException("잘못된 게시글 번호 입니다.");
+        }
+
         if(!findComment.getAccount().equals(account)){
             throw new IllegalArgumentException("댓글을 수정할 권한이 없습니다.");
         }
+
 
         findComment.editComment(commentForm.getContent());
 
@@ -64,7 +74,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<CommentReadResponse> lists = sliceComments.getContent()
                 .stream()
-                .map(comment -> new CommentReadResponse(comment.getAccount().getUserId(), comment.getContent(), comment.getCreatedDate(), comment.getLastModifiedDate()))
+                .map(comment -> new CommentReadResponse(comment.getId(), comment.getAccount().getUserId(), comment.getContent(), comment.getCreatedDate(), comment.getLastModifiedDate()))
                 .sorted(Comparator.comparing(CommentReadResponse::getModifiedDate).reversed())
                 .collect(Collectors.toList());
 
@@ -72,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long index, String userId) {
+    public CommentDeleteResponse delete(Long index, String userId) {
 
         Comment findComment = commentRepository.findCommentsById(index);
 
@@ -81,6 +91,6 @@ public class CommentServiceImpl implements CommentService {
         }
 
         findComment.deActive();
-
+        return new CommentDeleteResponse();
     }
 }
