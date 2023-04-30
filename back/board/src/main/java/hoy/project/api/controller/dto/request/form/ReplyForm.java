@@ -2,11 +2,13 @@ package hoy.project.api.controller.dto.request.form;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Getter
+@NoArgsConstructor
 public class ReplyForm {
 
     @NotEmpty(message = "제목을 입력하지 않았습니다.")
