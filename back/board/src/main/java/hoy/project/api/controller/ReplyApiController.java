@@ -2,6 +2,7 @@ package hoy.project.api.controller;
 
 import hoy.project.api.controller.argumentresolver.LoginAccountId;
 import hoy.project.api.controller.dto.request.form.ReplyForm;
+import hoy.project.api.controller.dto.response.reply.ReplyDeleteResponse;
 import hoy.project.api.controller.dto.response.reply.ReplyReadListResponse;
 import hoy.project.api.controller.dto.response.reply.ReplyWriteAndEditResponse;
 import hoy.project.service.ReplyService;
@@ -21,11 +22,11 @@ public class ReplyApiController {
     private final ReplyService replyService;
 
     @PostMapping
-    public ResponseEntity<ReplyWriteAndEditResponse> postReply(@Valid @RequestBody ReplyForm replyForm, @RequestParam Long commentId, @LoginAccountId String userId){
+    public ResponseEntity<ReplyWriteAndEditResponse> postReply(@Valid @RequestBody ReplyForm replyForm, @RequestParam(name = "comment") Long commentId, @LoginAccountId String userId){
         return ResponseEntity.ok(replyService.writeReply(replyForm,commentId,userId));
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/read/{id}")
     public ResponseEntity<ReplyReadListResponse> readReply10(@PathVariable Long id, @RequestParam int index){
         return ResponseEntity.ok(replyService.readReplyLatest10(id,index));
     }
@@ -36,9 +37,8 @@ public class ReplyApiController {
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id,@LoginAccountId String userId){
-        replyService.deActive(id,userId);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<ReplyDeleteResponse> delete(@PathVariable Long id, @LoginAccountId String userId){
+        return ResponseEntity.ok(replyService.deActive(id,userId));
 
     }
 }
