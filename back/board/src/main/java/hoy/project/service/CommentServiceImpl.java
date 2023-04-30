@@ -1,6 +1,7 @@
 package hoy.project.service;
 
 import hoy.project.api.controller.dto.request.form.CommentForm;
+import hoy.project.api.controller.dto.response.comment.CommentDeleteResponse;
 import hoy.project.api.controller.dto.response.comment.*;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
@@ -35,10 +36,6 @@ public class CommentServiceImpl implements CommentService {
         Account account = accountRepository.findByUserId(userId);
 
         if(article == null){
-            throw new IllegalArgumentException("존재하지 않는 게시물에 댓글을 작성하려고 합니다.");
-        }
-
-        if(account == null){
             throw new IllegalArgumentException("존재하지 않는 게시물에 댓글을 작성하려고 합니다.");
         }
 
@@ -85,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long index, String userId) {
+    public CommentDeleteResponse delete(Long index, String userId) {
 
         Comment findComment = commentRepository.findCommentsById(index);
 
@@ -94,6 +91,6 @@ public class CommentServiceImpl implements CommentService {
         }
 
         findComment.deActive();
-
+        return new CommentDeleteResponse();
     }
 }
