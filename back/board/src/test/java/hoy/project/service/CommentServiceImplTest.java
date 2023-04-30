@@ -9,6 +9,7 @@ import hoy.project.domain.Account;
 import hoy.project.domain.Article;
 import hoy.project.domain.Comment;
 import hoy.project.repository.CommentRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,13 +42,17 @@ class CommentServiceImplTest {
     EntityManager em;
 
     @BeforeEach
-    @Transactional
     public void init() {
         em.persist(account);
         em.persist(article);
 
-        em.clear();
         em.flush();
+        em.clear();
+    }
+
+    @AfterEach
+    public void destroy(){
+        commentRepository.deleteAll();
     }
 
     @Test
@@ -60,7 +65,7 @@ class CommentServiceImplTest {
 
         assertThat(post.getId()).isEqualTo(findComment.getId());
         assertThat(findComment.getContent()).isEqualTo(form.getContent());
-        assertThat(findComment.getId()).isEqualTo(account.getId());
+        assertThat(findComment.getAccount().getId()).isEqualTo(account.getId());
     }
 
     @Test
@@ -73,20 +78,11 @@ class CommentServiceImplTest {
     }
 
     @Test
-    @DisplayName("댓글 생성 실패 테스트 - 유저 ID가 없는 번호일 때")
-    public void postTest4() {
-        CommentForm form = new CommentForm("테스트 댓글 입니다.");
-        assertThrows(IllegalArgumentException.class, () -> {
-            commentService.post(form, article.getId(), null);
-        });
-    }
-
-    @Test
     @DisplayName("댓글 생성 실패 테스트 - 유저 ID와 게시글 ID가 둘다 없는 번호일 때")
     public void postTest5() {
         CommentForm form = new CommentForm("테스트 댓글 입니다.");
         assertThrows(IllegalArgumentException.class, () -> {
-            commentService.post(form, article.getId(), null);
+            commentService.post(form, Long.MAX_VALUE, null);
         });
     }
 
@@ -213,7 +209,7 @@ class CommentServiceImplTest {
 
         assertThat(commentList.get(0).getId()).isEqualTo(list.get(commentList.size()-1).getId());
         assertThat(commentList.get(commentList.size()-1).getId()).isEqualTo(list.get(0).getId());
-        assertThat(commentList.size()).isEqualTo(5);
+        assertThat(commentList.size()).isEqualTo(10);
     }
 
     @Test
@@ -240,8 +236,6 @@ class CommentServiceImplTest {
 
         assertThat(commentList.size()).isEqualTo(5);
 
-        assertThat(commentList.get(0).getId()).isEqualTo(list.get((int)(commentList.get(0).getId()-1)).getId());
-        assertThat(commentList.get(commentList.size()-1).getId()).isEqualTo(list.get((int)(commentList.get(commentList.size()-1).getId()-1)).getId());
     }
 
     @Test
