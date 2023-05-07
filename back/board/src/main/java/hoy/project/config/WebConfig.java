@@ -1,7 +1,6 @@
 package hoy.project.config;
 
 import hoy.project.api.controller.argumentresolver.AccountArgumentResolver;
-import hoy.project.api.interceptor.LogInterceptor;
 import hoy.project.api.interceptor.LoginCheckInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/account/login","/api/account/signup","/h2-console");
+                .excludePathPatterns("/api/account/login","/api/account/signup","/h2-console")
+                .excludePathPatterns("/docs/**");
     }
 
     @Override
