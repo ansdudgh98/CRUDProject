@@ -1,0 +1,43 @@
+= 회원 API
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: highlights
+
+== 로그인
+
+=== 요청
+include::{snippets}/login/request-fields.adoc[]
+include::{snippets}/login/http-request.adoc[]
+
+=== 응답
+include::{snippets}/login/response-fields.adoc[]
+include::{snippets}/login/http-response.adoc[]
+
+=== CURL
+include::{snippets}/login/curl-request.adoc[]
+
+== 로그아웃
+
+=== 요청
+include::{snippets}/logout/http-request.adoc[]
+
+=== 응답
+include::{snippets}/logout/http-response.adoc[]
+
+=== curl
+include::{snippets}/logout/curl-request.adoc[]
+
+== 회원가입
+
+=== 요청
+include::{snippets}/signup/request-fields.adoc[]
+include::{snippets}/signup/http-request.adoc[]
+
+=== 응답
+include::{snippets}/signup/response-fields.adoc[]
+include::{snippets}/signup/http-response.adoc[]
+
+=== CURL
+include::{snippets}/signup/curl-request.adoc[]

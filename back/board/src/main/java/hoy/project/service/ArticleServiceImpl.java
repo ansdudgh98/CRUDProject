@@ -8,7 +8,6 @@ import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
-import hoy.project.domain.View;
 import hoy.project.repository.AccountRepository;
 import hoy.project.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @Slf4j
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService{
@@ -27,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService{
     private final AccountRepository accountRepository;
 
     @Override
+    @Transactional
     public ArticlePostResponse createArticle(ArticleCreateForm form, String accountId) {
 
         Account account = accountRepository.findByUserId(accountId);
@@ -38,7 +38,6 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ArticleReadResponse readArticle(Long id) {
 
         Article article = articleRepository.findArticleById(id);
@@ -55,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    @Transactional
     public ArticleEditResponse editArticle(ArticleEditForm form, Long articleId, String accountId) {
 
         Account writer = accountRepository.findByUserId(accountId);
@@ -69,6 +69,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    @Transactional
     public ArticleDeleteResponse deleteArticle(Long id,String accountId) {
 
         Account writer = accountRepository.findByUserId(accountId);
