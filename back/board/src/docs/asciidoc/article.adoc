@@ -1,0 +1,57 @@
+= 게시글 API
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: highlights
+
+== 게시물 읽기
+
+=== 요청
+include::{snippets}/articleread/http-request.adoc[]
+
+=== 응답
+include::{snippets}/articleread/http-response.adoc[]
+include::{snippets}/articleread/response-body.adoc[]
+
+=== curl
+include::{snippets}/articleread/curl-request.adoc[]
+
+
+== 게시글 작성
+
+=== 요청
+include::{snippets}/articlepost/request-fields.adoc[]
+include::{snippets}/articlepost/http-request.adoc[]
+
+=== 응답
+include::{snippets}/articlepost/http-response.adoc[]
+include::{snippets}/articlepost/response-body.adoc[]
+
+=== curl
+include::{snippets}/articlepost/curl-request.adoc[]
+
+== 게시글 수정
+
+=== 요청
+include::{snippets}/articleEdit/request-fields.adoc[]
+include::{snippets}/articleEdit/http-request.adoc[]
+
+=== 응답
+include::{snippets}/articleEdit/http-response.adoc[]
+include::{snippets}/articleEdit/response-body.adoc[]
+
+=== curl
+include::{snippets}/articleEdit/curl-request.adoc[]
+
+== 게시글 삭제
+
+=== 요청
+include::{snippets}/articledelete/http-request.adoc[]
+
+=== 응답
+include::{snippets}/articledelete/http-response.adoc[]
+include::{snippets}/articledelete/response-body.adoc[]
+
+=== curl
+include::{snippets}/articledelete/curl-request.adoc[]

@@ -1,0 +1,15 @@
+= 게시판 CRUD 프로젝트
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: highlights
+
+
+== 회원 API
+* link:account.html[회원API ]
+
+== 게시물 API
+* link:article.html[게시물API]
+
+
