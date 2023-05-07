@@ -101,3 +101,4 @@ bootJar {
         from asciidoctor.outputDir
         into "src/main/resources/static/docs"
     }
+}
