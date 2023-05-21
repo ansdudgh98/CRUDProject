@@ -6,6 +6,8 @@ import hoy.project.api.controller.dto.response.article.ArticleDeleteResponse;
 import hoy.project.api.controller.dto.response.article.ArticleEditResponse;
 import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
+import hoy.project.api.controller.dto.response.image.ImageUploadResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ArticleService {
 
@@ -16,6 +18,8 @@ public interface ArticleService {
     ArticleEditResponse editArticle(ArticleEditForm form, Long articleId, String accountId);
 
     ArticleDeleteResponse deleteArticle(Long id,String accountId);
+
+    ImageUploadResponse saveImage(MultipartFile file, String loginId) ;
 
 
 }
