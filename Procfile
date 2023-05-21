@@ -1,1 +1,0 @@
-web: java -Dserver.port=8080 -jar back/build/libs/back-0.0.1-SNAPSHOT.jar
