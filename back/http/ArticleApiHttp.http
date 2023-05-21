@@ -9,3 +9,15 @@ Content-Type: application/json
 
 ### 게시글 확인
 GET http://localhost:8080/api/article/100000
+
+### 이미지 저장 확인
+POST http://localhost:8080/api/article/imageupload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.png"
+Content-Type: image/png
+
+< /Users/moonyoungho/project/CRUDProject/back/src/main/resources/static/image/test.png
+--WebAppBoundary--\
