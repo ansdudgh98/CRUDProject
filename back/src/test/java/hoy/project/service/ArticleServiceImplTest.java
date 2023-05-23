@@ -5,23 +5,39 @@ import hoy.project.api.controller.dto.request.form.ArticleEditForm;
 import hoy.project.api.controller.dto.response.article.ArticleEditResponse;
 import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
+import hoy.project.api.controller.dto.response.image.ImageUploadResponse;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
+import hoy.project.domain.Image;
 import hoy.project.repository.AccountRepository;
 import hoy.project.repository.ArticleRepository;
+import hoy.project.repository.ImageRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@Transactional
 class ArticleServiceImplTest {
 
+    @Value("${server.storage}")
+    String path;
 
     @Autowired
     ArticleService articleService;
@@ -31,6 +47,9 @@ class ArticleServiceImplTest {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     @Autowired
     EntityManager em;
@@ -141,6 +160,60 @@ class ArticleServiceImplTest {
 
         assertThat(findArticle.getActive()).isEqualTo(0);
     }
+
+    @Test
+    @DisplayName("이미지 업로드 성공 테스트 - 이미지 내용이 동일한지 비교한다.")
+    public void imageUploadSameFileContentsTest() throws Exception{
+        
+        String filename = "test.png";
+        Account account = new Account("test3", "test2", "mytest@email.com");
+
+        String testPath = "./src/test/resources/static/";
+        MultipartFile file = new MockMultipartFile(filename,filename,"image/png",new FileInputStream(testPath +filename));
+
+        ImageUploadResponse imageUploadResponse = articleService.saveImage(file, account.getUserId());
+
+        File resultFile = new File(imageUploadResponse.getUrl());
+        byte[] resultFileBytes = Files.readAllBytes(resultFile.toPath());
+        byte[] fileBytes = file.getBytes();
+
+        assertThat(fileBytes).containsExactly(resultFileBytes);
+    }
+
+    @Test
+    @DisplayName("이미지 업로드 성공 테스트 - 이미지의 정보가 데이터베이스에 저장된 정보와 동일한지 비교한다.")
+    public void imageUploadInfoConfirmTest() throws Exception{
+        String filename = "test.png";
+        Account account = new Account("test3", "test2", "mytest@email.com");
+
+        accountRepository.save(account);
+
+        String testPath = "./src/test/resources/static/";
+        MultipartFile file = new MockMultipartFile(filename,filename,"image/png",new FileInputStream(testPath +filename));
+
+        ImageUploadResponse imageUploadResponse = articleService.saveImage(file, account.getUserId());
+        Image image = imageRepository.findImageByAccount_Id(account.getId());
+
+        assertThat(image.getUrl()).isEqualTo(imageUploadResponse.getUrl());
+        assertThat(image.getFilename()).isEqualTo(filename);
+        assertThat(file.getSize()).isEqualTo(image.getCapacity());
+    }
+
+    @Test
+    @DisplayName("이미지 업로드 실패 테스트 - 이미지의 형식이 만약 존재하지 않는 형식인 경우 예외를 반환한다.")
+    void imageUploadFailTest() throws Exception {
+
+        String filename = "text.txt";
+        Account account = new Account("test3", "test2", "mytest@email.com");
+
+        accountRepository.save(account);
+
+        String testPath = "./src/test/resources/static/";
+        MultipartFile file = new MockMultipartFile(filename,filename,"text/*",new FileInputStream(testPath +filename));
+
+        assertThrows(IllegalArgumentException.class,()-> articleService.saveImage(file,account.getUserId()));
+    }
+
 
 
 }
