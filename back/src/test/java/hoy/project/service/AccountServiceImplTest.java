@@ -1,31 +1,13 @@
 package hoy.project.service;
 
 import hoy.project.domain.Account;
-import hoy.project.repository.AccountRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-class AccountServiceImplTest {
-
-    @Autowired
-    AccountService accountService;
-
-    @Autowired
-    EntityManager em;
-
-    @Autowired
-    AccountRepository accountRepository;
+class AccountServiceImplTest extends ServiceTest {
 
     @Test
     @DisplayName("회원 생성 성공 테스트")
@@ -38,7 +20,7 @@ class AccountServiceImplTest {
     }
 
     @Test
-    @DisplayName("로그인 성공 테스트")
+    @DisplayName("로그인 성공 테 스트")
     void loginTest() {
         Account saveAccount = accountRepository.save(new Account("test", "1234", "test@test.com"));
         Account loginAccount = accountService.login("test", "1234");
