@@ -1,15 +1,17 @@
 package hoy.project.api.controller.dto.response.article;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ArticleReadResponse {
 
-    private final String title;
+    private String title;
 
-    private final String content;
+    private String content;
 
-    private final String userId;
+    private String userId;
 
     public ArticleReadResponse(String title, String content, String userId) {
         this.title = title;
