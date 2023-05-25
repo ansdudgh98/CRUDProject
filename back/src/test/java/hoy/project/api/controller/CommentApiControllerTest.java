@@ -1,25 +1,15 @@
 package hoy.project.api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hoy.project.api.controller.dto.request.form.CommentForm;
 import hoy.project.api.controller.dto.response.comment.CommentDeleteResponse;
 import hoy.project.api.controller.dto.response.comment.CommentEditResponse;
 import hoy.project.api.controller.dto.response.comment.CommentPostResponse;
 import hoy.project.api.controller.dto.response.comment.CommentsReadResponse;
 import hoy.project.api.controller.session.SessionConst;
-import hoy.project.service.CommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -29,27 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
-public class CommentApiControllerTest {
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    WebApplicationContext context;
-
-    @MockBean
-    CommentService commentService;
-
-    @Autowired
-    ObjectMapper objectMapper;
-    MockHttpSession session = new MockHttpSession();
+public class CommentApiControllerTest extends ControllerTest {
 
     String userId = "test1234";
 
     @BeforeEach
-    public void init() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+    public void initSession() {
         session.setAttribute(SessionConst.ACCOUNT, userId);
     }
 
