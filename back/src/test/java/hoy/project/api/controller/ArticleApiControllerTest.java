@@ -4,7 +4,6 @@ import hoy.project.api.controller.dto.request.form.ArticleCreateForm;
 import hoy.project.api.controller.dto.request.form.ArticleEditForm;
 import hoy.project.api.controller.dto.response.CommonErrorResponse;
 import hoy.project.api.controller.dto.response.article.ArticleEditResponse;
-import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
 import hoy.project.api.controller.session.SessionConst;
 import hoy.project.domain.Account;
@@ -13,12 +12,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.io.FileInputStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -244,7 +246,6 @@ class ArticleApiControllerTest extends ControllerTest{
 
         Account account = new Account("newaccount1", "account1", "account@test.com");
         accountRepository.save(account);
-        articleRepository.save(testArticle);
 
         session.clearAttributes();
         session.setAttribute(SessionConst.ACCOUNT, account.getUserId());
@@ -262,7 +263,21 @@ class ArticleApiControllerTest extends ControllerTest{
         assertThat(findArticle.getActive()).isEqualTo(1);
     }
 
+    @Test
+    @DisplayName("[API][ARTICLE] 이미지 업로드 성공 테스트")
+    void imageUploadControllerTest() throws Exception {
+        //given
+        String filename = "test.png";
+        String testPath = "./src/test/resources/static/";
+        MockMultipartFile file = new MockMultipartFile("file",filename,"image/png",new FileInputStream(testPath +filename));
 
+        //when
 
-
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/article/imageupload")
+                .file(file)
+                .session(session)
+        ).andDo(print())
+        .andExpect(status().isOk());
+    }
 }
