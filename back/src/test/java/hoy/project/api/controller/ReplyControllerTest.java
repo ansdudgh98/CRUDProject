@@ -29,27 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
-public class ReplyControllerTest {
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    WebApplicationContext context;
-
-    @MockBean
-    ReplyService replyService;
-
-    @Autowired
-    ObjectMapper objectMapper;
-    MockHttpSession session = new MockHttpSession();
+public class ReplyControllerTest extends ControllerTest {
 
     String userId = "test1234";
 
     @BeforeEach
-    public void init() {
+    public void initSession() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         session.setAttribute(SessionConst.ACCOUNT, userId);
     }
@@ -111,8 +96,6 @@ public class ReplyControllerTest {
         mockMvc.perform(get("/api/reply/read/"+anyLong()+"?index="+0)
                 .session(session))
                 .andExpect(status().isOk());
-
-
     }
 
 

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
+@NoArgsConstructor
 public class LoginForm {
 
     @NotEmpty(message = "아이디를 입력해주세요.")

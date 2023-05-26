@@ -7,12 +7,14 @@ import hoy.project.api.controller.dto.response.article.ArticleEditResponse;
 import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
 import hoy.project.api.controller.argumentresolver.LoginAccountId;
+import hoy.project.api.controller.dto.response.image.ImageUploadResponse;
 import hoy.project.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -44,5 +46,11 @@ public class ArticleApiController {
     public ResponseEntity<ArticleDeleteResponse> deleteArticle(@PathVariable Long id,@LoginAccountId String loginId){
         return ResponseEntity.ok(articleService.deleteArticle(id,loginId));
     }
+
+    @PostMapping("/imageupload")
+    public ResponseEntity<ImageUploadResponse> imageUpload(@RequestParam MultipartFile file, @LoginAccountId String loginId){
+        return ResponseEntity.ok(articleService.saveImage(file,loginId));
+    }
+
 
 }
