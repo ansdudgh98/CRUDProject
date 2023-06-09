@@ -1,8 +1,6 @@
 <h1>게시판 CRUD 프로젝트</h1>
-<hr/>
 
 <h3>프로젝트 소개</h3>
-<hr/>
 
 - 스프링 및 JPA 학습 후 간단한 예제 적용을 하며 복습하기 위해 만든 프로젝트 입니다.
 - 배운 내용을 계속해서 적용해 나가면서 업데이트 할 예정입니다.
@@ -28,4 +26,4 @@
 
 <h3>데이터베이스 설계</h3>
 
-  
+ ![crudproject](https://github.com/ansdudgh98/CRUDProject/assets/52616389/b2c8aeb6-6ec5-4cc7-baec-a10bd1b3286e)
