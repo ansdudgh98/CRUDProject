@@ -1,7 +1,6 @@
 package hoy.project.service;
 
 import hoy.project.api.controller.dto.request.form.CommentForm;
-import hoy.project.api.controller.dto.response.comment.CommentDeleteResponse;
 import hoy.project.api.controller.dto.response.comment.*;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
@@ -35,11 +34,11 @@ public class CommentServiceImpl implements CommentService {
         Article article = articleRepository.findArticleById(articleId);
         Account account = accountRepository.findByUserId(userId);
 
-        if(article == null){
+        if (article == null) {
             throw new IllegalArgumentException("존재하지 않는 게시물에 댓글을 작성하려고 합니다.");
         }
 
-        Comment comment = new Comment(commentForm.getContent(),account,article);
+        Comment comment = new Comment(commentForm.getContent(), account, article);
 
         commentRepository.save(comment);
 
@@ -52,11 +51,11 @@ public class CommentServiceImpl implements CommentService {
         Account account = accountRepository.findByUserId(userId);
         Comment findComment = commentRepository.findCommentById(commentId);
 
-        if(findComment == null){
+        if (findComment == null) {
             throw new IllegalArgumentException("잘못된 게시글 번호 입니다.");
         }
 
-        if(!findComment.getAccount().equals(account)){
+        if (!findComment.getAccount().equals(account)) {
             throw new IllegalArgumentException("댓글을 수정할 권한이 없습니다.");
         }
 
@@ -86,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment findComment = commentRepository.findCommentsById(index);
 
-        if(!findComment.getAccount().getUserId().equals(userId)){
+        if (!findComment.getAccount().getUserId().equals(userId)) {
             throw new IllegalArgumentException("삭제할 권한이 없습니다!");
         }
 

@@ -23,11 +23,10 @@ public class View {
     @JoinColumn(name = "article_id")
     private Article article;
 
-
-
     private Long count;
 
-    @CreatedDate @CreationTimestamp
+    @CreatedDate
+    @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdDate;
 

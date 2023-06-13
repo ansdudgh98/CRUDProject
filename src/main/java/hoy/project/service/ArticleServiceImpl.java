@@ -14,7 +14,6 @@ import hoy.project.repository.AccountRepository;
 import hoy.project.repository.ArticleRepository;
 import hoy.project.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,16 +26,14 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-@Slf4j
 @RequiredArgsConstructor
-public class ArticleServiceImpl implements ArticleService{
-
-    @Value("${server.storage}")
-    private String path;
+public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final AccountRepository accountRepository;
     private final ImageRepository imageRepository;
+    @Value("${server.storage}")
+    private String path;
 
     @Override
     @Transactional
@@ -55,7 +52,7 @@ public class ArticleServiceImpl implements ArticleService{
 
         Article article = articleRepository.findArticleById(id);
 
-        if(article == null){
+        if (article == null) {
             throw new IllegalArgumentException("존재하지 않는 게시물 번호 입니다.");
         }
 
@@ -73,23 +70,23 @@ public class ArticleServiceImpl implements ArticleService{
         Account writer = accountRepository.findByUserId(accountId);
         Article editArticle = articleRepository.findById(articleId).get();
 
-        if(!editArticle.getAccount().equals(writer)){
+        if (!editArticle.getAccount().equals(writer)) {
             throw new IllegalArgumentException("게시글을 수정할 권한이 없습니다!");
         }
 
-        editArticle.changeTitleAndContent(form.getTitle(),form.getContent());
+        editArticle.changeTitleAndContent(form.getTitle(), form.getContent());
         return new ArticleEditResponse(editArticle.getId());
     }
 
     @Override
     @Transactional
-    public ArticleDeleteResponse deleteArticle(Long id,String accountId) {
+    public ArticleDeleteResponse deleteArticle(Long id, String accountId) {
 
         Account writer = accountRepository.findByUserId(accountId);
         Article deleteArticle = articleRepository.findById(id).get();
 
 
-        if(!deleteArticle.getAccount().equals(writer)){
+        if (!deleteArticle.getAccount().equals(writer)) {
             throw new IllegalArgumentException("게시글을 삭제할 권한이 없습니다!");
         }
 
@@ -107,7 +104,7 @@ public class ArticleServiceImpl implements ArticleService{
 
         Account findAccount = accountRepository.findByUserId(loginId);
 
-        if(!contentType.equals("image")){
+        if (!contentType.equals("image")) {
             throw new IllegalArgumentException("지원하지 않는 파일 형식 입니다.");
         }
 

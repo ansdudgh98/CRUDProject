@@ -1,7 +1,6 @@
 package hoy.project.domain;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article extends BaseEntity{
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +20,7 @@ public class Article extends BaseEntity{
     private String title;
 
     @Lob
-    @Column(nullable = false,columnDefinition = "LONGTEXT")
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +33,7 @@ public class Article extends BaseEntity{
         this.account = account;
     }
 
-    public void changeTitleAndContent(String newTitle,String newContent){
+    public void changeTitleAndContent(String newTitle, String newContent) {
         this.title = newTitle;
         this.content = newContent;
     }

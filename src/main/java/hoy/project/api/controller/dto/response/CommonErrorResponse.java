@@ -11,7 +11,7 @@ public class CommonErrorResponse {
 
     private final String code;
     private final String message;
-    private final Map<String, String> validation= new HashMap();
+    private final Map<String, String> validation = new HashMap();
 
     public CommonErrorResponse(String code, String message) {
         this.code = code;
@@ -19,6 +19,6 @@ public class CommonErrorResponse {
     }
 
     public void addValidation(String field, String defaultMessage) {
-        this.validation.put(field,defaultMessage);
+        this.validation.put(field, defaultMessage);
     }
 }

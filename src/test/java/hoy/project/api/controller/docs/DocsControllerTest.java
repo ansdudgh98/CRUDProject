@@ -4,12 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hoy.project.api.controller.session.SessionConst;
 import hoy.project.domain.Account;
 import hoy.project.repository.AccountRepository;
-import hoy.project.repository.ArticleRepository;
-import hoy.project.repository.CommentRepository;
-import hoy.project.service.AccountService;
-import hoy.project.service.ArticleService;
-import hoy.project.service.CommentService;
-import hoy.project.service.ReplyService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,47 +26,28 @@ public class DocsControllerTest {
     @Autowired
     protected WebApplicationContext webApplicationContext;
 
+    protected ObjectMapper objectMapper = new ObjectMapper();
+    protected MockHttpSession session = new MockHttpSession();
+    @Autowired
+    protected AccountRepository accountRepository;
+
+    protected Account account;
+
     @BeforeEach
-    public void init(RestDocumentationContextProvider restDocumentationContextProvider){
+    public void init(RestDocumentationContextProvider restDocumentationContextProvider) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentationContextProvider))
                 .build();
     }
 
-    @Autowired
-    protected AccountService accountService;
-
-    @Autowired
-    protected ArticleService articleService;
-
-    @Autowired
-    protected CommentService commentService;
-
-    @Autowired
-    protected ReplyService replyService;
-
-    protected ObjectMapper objectMapper = new ObjectMapper();
-    protected MockHttpSession session = new MockHttpSession();
-
-    @Autowired
-    protected AccountRepository accountRepository;
-
-    @Autowired
-    protected ArticleRepository articleRepository;
-
-    @Autowired
-    protected CommentRepository commentRepository;
-
-    protected Account account;
-
     @BeforeEach
     protected void setUp() {
-        account = accountRepository.save(new Account("test1","!test123","test@gmail.com"));
-        session.setAttribute(SessionConst.ACCOUNT, SessionConst.GUEST);
+        account = accountRepository.save(new Account("test1", "!test123", "test@gmail.com"));
+        session.setAttribute(SessionConst.attributeName, "test1");
     }
 
     @AfterEach
-    protected void destroy(){
+    protected void destroy() {
         accountRepository.deleteAll();
     }
 }

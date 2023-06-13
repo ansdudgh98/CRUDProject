@@ -26,6 +26,6 @@ public class AccountArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         HttpSession session = request.getSession();
-        return session.getAttribute(SessionConst.ACCOUNT);
+        return session.getAttribute(SessionConst.attributeName);
     }
 }

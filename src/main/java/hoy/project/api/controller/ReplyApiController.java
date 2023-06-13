@@ -7,14 +7,11 @@ import hoy.project.api.controller.dto.response.reply.ReplyReadListResponse;
 import hoy.project.api.controller.dto.response.reply.ReplyWriteAndEditResponse;
 import hoy.project.service.ReplyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reply")
 public class ReplyApiController {
@@ -22,23 +19,27 @@ public class ReplyApiController {
     private final ReplyService replyService;
 
     @PostMapping
-    public ResponseEntity<ReplyWriteAndEditResponse> postReply(@Valid @RequestBody ReplyForm replyForm, @RequestParam(name = "comment") Long commentId, @LoginAccountId String userId){
-        return ResponseEntity.ok(replyService.writeReply(replyForm,commentId,userId));
+    public ReplyWriteAndEditResponse postReply(@Valid @RequestBody ReplyForm replyForm,
+                                               @RequestParam(name = "comment") Long commentId,
+                                               @LoginAccountId String userId) {
+        return replyService.writeReply(replyForm, commentId, userId);
     }
 
     @GetMapping("/read/{id}")
-    public ResponseEntity<ReplyReadListResponse> readReply10(@PathVariable Long id, @RequestParam int index){
-        return ResponseEntity.ok(replyService.readReplyLatest10(id,index));
+    public ReplyReadListResponse readReply10(@PathVariable Long id, @RequestParam int index) {
+        return replyService.readReplyLatest10(id, index);
     }
 
     @PostMapping("/edit/{id}")
-    public ResponseEntity<ReplyWriteAndEditResponse> editReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable Long id,@LoginAccountId String userId){
-        return ResponseEntity.ok(replyService.editReply(replyForm,id,userId));
+    public ReplyWriteAndEditResponse editReply(@Valid @RequestBody ReplyForm replyForm,
+                                               @PathVariable Long id,
+                                               @LoginAccountId String userId) {
+        return replyService.editReply(replyForm, id, userId);
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseEntity<ReplyDeleteResponse> delete(@PathVariable Long id, @LoginAccountId String userId){
-        return ResponseEntity.ok(replyService.deActive(id,userId));
+    public ReplyDeleteResponse delete(@PathVariable Long id, @LoginAccountId String userId) {
+        return replyService.deActive(id, userId);
 
     }
 }

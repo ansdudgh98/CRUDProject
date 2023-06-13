@@ -25,7 +25,7 @@ public class CommentApiControllerTest extends ControllerTest {
 
     @BeforeEach
     public void initSession() {
-        session.setAttribute(SessionConst.ACCOUNT, userId);
+        session.setAttribute(SessionConst.attributeName, userId);
     }
 
 

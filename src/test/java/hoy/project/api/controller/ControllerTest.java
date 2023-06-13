@@ -11,7 +11,6 @@ import hoy.project.service.AccountService;
 import hoy.project.service.ArticleService;
 import hoy.project.service.CommentService;
 import hoy.project.service.ReplyService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 
@@ -61,15 +59,8 @@ public class ControllerTest {
     @BeforeEach
     protected void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        session.setAttribute(SessionConst.ACCOUNT, SessionConst.GUEST);
+        session.setAttribute(SessionConst.attributeName, "test1");
     }
-
-    @BeforeEach
-    protected void destroy(){
-        articleRepository.deleteAllInBatch();
-        accountRepository.deleteAllInBatch();
-    }
-
 
 
 

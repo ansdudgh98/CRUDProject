@@ -17,9 +17,9 @@ public interface ArticleService {
 
     ArticleEditResponse editArticle(ArticleEditForm form, Long articleId, String accountId);
 
-    ArticleDeleteResponse deleteArticle(Long id,String accountId);
+    ArticleDeleteResponse deleteArticle(Long id, String accountId);
 
-    ImageUploadResponse saveImage(MultipartFile file, String loginId) ;
+    ImageUploadResponse saveImage(MultipartFile file, String loginId);
 
 
 }
