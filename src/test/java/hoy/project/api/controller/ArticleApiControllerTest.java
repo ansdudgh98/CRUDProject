@@ -18,21 +18,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.io.FileInputStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-
-class ArticleApiControllerTest extends ControllerTest{
+class ArticleApiControllerTest extends ControllerTest {
 
     @BeforeEach
-    void initData(){
-        account = accountRepository.save(new Account("test1","!test123","test@gmail.com"));
-        testArticle = articleRepository.save(new Article("테스트 제목1","테스트 내용",account));
-        session.setAttribute(SessionConst.ACCOUNT,account.getUserId());
+    void initData() {
+        account = accountRepository.save(new Account("test1", "!test123", "test@gmail.com"));
+        testArticle = articleRepository.save(new Article("테스트 제목1", "테스트 내용", account));
+        session.setAttribute(SessionConst.attributeName, account.getUserId());
     }
 
     @Test
@@ -140,7 +139,7 @@ class ArticleApiControllerTest extends ControllerTest{
 
         Article fidnArticle = articleRepository.findArticleById(testArticle.getId());
 
-        System.out.println("testArticle : "+testArticle.getId());
+        System.out.println("testArticle : " + testArticle.getId());
         assertThat(fidnArticle.getTitle()).isEqualTo(form.getTitle());
         assertThat(fidnArticle.getContent()).isEqualTo(form.getContent());
     }
@@ -154,7 +153,7 @@ class ArticleApiControllerTest extends ControllerTest{
         ArticleEditForm form = new ArticleEditForm("수정된 게시물", "수정된 게시물 내용");
 
         session.clearAttributes();
-        session.setAttribute(SessionConst.ACCOUNT, account.getUserId());
+        session.setAttribute(SessionConst.attributeName, account.getUserId());
 
         CommonErrorResponse validationErrorResponse = new CommonErrorResponse("400", "게시글을 수정할 권한이 없습니다!");
 
@@ -221,7 +220,6 @@ class ArticleApiControllerTest extends ControllerTest{
     }
 
 
-
     @Test
     @DisplayName("[API][ARTICLE] 게시물 삭제 성공 테스트")
     public void articleDeleteTest1() throws Exception {
@@ -248,7 +246,7 @@ class ArticleApiControllerTest extends ControllerTest{
         accountRepository.save(account);
 
         session.clearAttributes();
-        session.setAttribute(SessionConst.ACCOUNT, account.getUserId());
+        session.setAttribute(SessionConst.attributeName, account.getUserId());
 
         CommonErrorResponse validationErrorResponse = new CommonErrorResponse("400", "게시글을 삭제할 권한이 없습니다!");
 
@@ -269,15 +267,15 @@ class ArticleApiControllerTest extends ControllerTest{
         //given
         String filename = "test.png";
         String testPath = "./src/test/resources/static/";
-        MockMultipartFile file = new MockMultipartFile("file",filename,"image/png",new FileInputStream(testPath +filename));
+        MockMultipartFile file = new MockMultipartFile("file", filename, "image/png", new FileInputStream(testPath + filename));
 
         //when
 
         //then
         mockMvc.perform(MockMvcRequestBuilders.multipart("/api/article/imageupload")
-                .file(file)
-                .session(session)
-        ).andDo(print())
-        .andExpect(status().isOk());
+                        .file(file)
+                        .session(session)
+                ).andDo(print())
+                .andExpect(status().isOk());
     }
 }

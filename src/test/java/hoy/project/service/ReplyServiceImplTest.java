@@ -17,15 +17,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ReplyServiceImplTest extends ServiceTest{
+class ReplyServiceImplTest extends ServiceTest {
 
     Article article;
     Comment comment;
 
     @BeforeEach
-    public void initArticleAndComment(){
-        article = articleRepository.save(new Article("테스트 게시물","테스트 내용",testAccount));
-        comment = commentRepository.save(new Comment("테스트 댓글",testAccount,article));
+    public void initArticleAndComment() {
+        article = articleRepository.save(new Article("테스트 게시물", "테스트 내용", testAccount));
+        comment = commentRepository.save(new Comment("테스트 댓글", testAccount, article));
     }
 
     @Test
@@ -52,7 +52,7 @@ class ReplyServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("대댓글 생성 실패 테스트 - 대댓글과 account가 둘 다 없는 번호 일 때")
-    public void replyWriteFailTestNotExistCommentAndAccount(){
+    public void replyWriteFailTestNotExistCommentAndAccount() {
         ReplyForm form = new ReplyForm("테스트 대댓글");
         assertThrows(IllegalArgumentException.class, () -> {
             replyService.writeReply(form, Long.MAX_VALUE, null);
@@ -148,7 +148,7 @@ class ReplyServiceImplTest extends ServiceTest{
         List<Reply> list = new ArrayList<>();
 
         for (int i = 0; i < 35; i++) {
-            list.add(new Reply("테스트 대댓글 입니다. "+i+" 입니다.",comment,testAccount));
+            list.add(new Reply("테스트 대댓글 입니다. " + i + " 입니다.", comment, testAccount));
         }
 
         replyRepository.saveAll(list);
@@ -160,9 +160,8 @@ class ReplyServiceImplTest extends ServiceTest{
         assertThat(replyList.size()).isEqualTo(10);
 
 
-
-        assertThat(replyList.get(0).getId()).isEqualTo(list.get(replyList.size()-1).getId());
-        assertThat(replyList.get(replyList.size()-1).getId()).isEqualTo(list.get(0).getId());
+        assertThat(replyList.get(0).getId()).isEqualTo(list.get(replyList.size() - 1).getId());
+        assertThat(replyList.get(replyList.size() - 1).getId()).isEqualTo(list.get(0).getId());
         assertThat(replyList.size()).isEqualTo(10);
     }
 
@@ -173,7 +172,7 @@ class ReplyServiceImplTest extends ServiceTest{
         List<Reply> list = new ArrayList<>();
 
         for (int i = 0; i < 35; i++) {
-            list.add(new Reply("테스트 대댓글 입니다. "+i+" 입니다.",comment,testAccount));
+            list.add(new Reply("테스트 대댓글 입니다. " + i + " 입니다.", comment, testAccount));
         }
 
         replyRepository.saveAll(list);
@@ -190,11 +189,11 @@ class ReplyServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("댓글 읽기 성공 테스트 - 인덱스의 번호가 허용되는 인덱스의 수를 초과하였을때")
-    public void readsReplyListTestOverIndex(){
+    public void readsReplyListTestOverIndex() {
         List<Reply> list = new ArrayList<>();
 
         for (int i = 0; i < 35; i++) {
-            list.add(new Reply("테스트 대댓글 입니다. "+i+" 입니다.",comment,testAccount));
+            list.add(new Reply("테스트 대댓글 입니다. " + i + " 입니다.", comment, testAccount));
         }
 
         replyRepository.saveAll(list);

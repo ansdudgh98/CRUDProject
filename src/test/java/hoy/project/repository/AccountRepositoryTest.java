@@ -21,10 +21,12 @@ class AccountRepositoryTest {
     EntityManager em;
 
 
+
+
     @Test
     @DisplayName("Account 생성 테스트")
     @Transactional
-    void createAccount(){
+    void createAccount() {
 
         Account AccountA = Account.builder()
                 .userId("account1")
@@ -44,7 +46,7 @@ class AccountRepositoryTest {
     @Test
     @DisplayName("중복 확인 존재하지않는 아이디 성공 테스트")
     @Transactional
-    void existLoginId(){
+    void existLoginId() {
         Account accountA = Account.builder()
                 .userId("account1")
                 .password("1234")
@@ -58,7 +60,6 @@ class AccountRepositoryTest {
         boolean exist = AccountRepository.existByUserId("account1");
         assertThat(exist).isTrue();
     }
-
 
 
 }

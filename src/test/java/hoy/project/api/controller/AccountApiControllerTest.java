@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,11 +19,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AccountApiControllerTest extends ControllerTest{
+class AccountApiControllerTest extends ControllerTest {
 
     @BeforeEach
-    void initData(){
-        account = accountRepository.save(new Account("test1","!test123","test@gmail.com"));
+    void initData() {
+        account = accountRepository.save(new Account("test1", "!test123", "test@gmail.com"));
     }
 
     @Test
@@ -46,10 +45,10 @@ class AccountApiControllerTest extends ControllerTest{
 
         String reqSession = mvcResult.getRequest()
                 .getSession()
-                .getAttribute(SessionConst.ACCOUNT)
+                .getAttribute(SessionConst.attributeName)
                 .toString();
 
-        String jdbcSession = session.getAttribute(SessionConst.ACCOUNT).toString();
+        String jdbcSession = session.getAttribute(SessionConst.attributeName).toString();
 
         assertThat(reqSession).isEqualTo(jdbcSession);
     }
@@ -72,10 +71,10 @@ class AccountApiControllerTest extends ControllerTest{
 
         String reqSession = mvcResult.getRequest()
                 .getSession()
-                .getAttribute(SessionConst.ACCOUNT)
+                .getAttribute(SessionConst.attributeName)
                 .toString();
 
-        String jdbcSession = session.getAttribute(SessionConst.ACCOUNT).toString();
+        String jdbcSession = session.getAttribute(SessionConst.attributeName).toString();
 
         assertThat(reqSession).isEqualTo(jdbcSession);
     }
@@ -96,10 +95,10 @@ class AccountApiControllerTest extends ControllerTest{
 
         String reqSession = mvcResult.getRequest()
                 .getSession()
-                .getAttribute(SessionConst.ACCOUNT)
+                .getAttribute(SessionConst.attributeName)
                 .toString();
 
-        String jdbcSession = session.getAttribute(SessionConst.ACCOUNT).toString();
+        String jdbcSession = session.getAttribute(SessionConst.attributeName).toString();
 
         assertThat(reqSession).isEqualTo(jdbcSession);
     }
@@ -120,21 +119,20 @@ class AccountApiControllerTest extends ControllerTest{
 
         String reqSession = mvcResult.getRequest()
                 .getSession()
-                .getAttribute(SessionConst.ACCOUNT)
+                .getAttribute(SessionConst.attributeName)
                 .toString();
 
-        String jdbcSession = session.getAttribute(SessionConst.ACCOUNT).toString();
+        String jdbcSession = session.getAttribute(SessionConst.attributeName).toString();
 
         assertThat(reqSession).isEqualTo(jdbcSession);
 
     }
 
 
-
     @Test
     @DisplayName("[API][ACCOUNT]로그아웃 테스트 - 로그아웃시 세션 정보는 GUEST가 된다.")
     public void logoutTest() throws Exception {
-        session.setAttribute(SessionConst.ACCOUNT, "test123");
+        session.setAttribute(SessionConst.attributeName, "test123");
 
 
         MvcResult mvcResult = mockMvc.perform(get("/api/account/logout")
@@ -144,18 +142,18 @@ class AccountApiControllerTest extends ControllerTest{
 
         String reqSession = mvcResult.getRequest()
                 .getSession()
-                .getAttribute(SessionConst.ACCOUNT)
+                .getAttribute(SessionConst.attributeName)
                 .toString();
 
-        String UserSession = session.getAttribute(SessionConst.ACCOUNT).toString();
+        String UserSession = session.getAttribute(SessionConst.attributeName).toString();
 
         assertThat(reqSession).isEqualTo(UserSession);
     }
 
     @Test
     @DisplayName("[API][Account]회원가입 테스트 - 성공 테스트")
-    public void signUpTest1() throws Exception{
-        SignupForm signupForm = new SignupForm("test123","Asdasdatest123","test11@gmail.com");
+    public void signUpTest1() throws Exception {
+        SignupForm signupForm = new SignupForm("test123", "Asdasdatest123", "test11@gmail.com");
 
         MvcResult mvcResult = mockMvc.perform(post("/api/account/signup")
                         .session(session)
@@ -166,10 +164,10 @@ class AccountApiControllerTest extends ControllerTest{
 
         String reqSession = mvcResult.getRequest()
                 .getSession()
-                .getAttribute(SessionConst.ACCOUNT)
+                .getAttribute(SessionConst.attributeName)
                 .toString();
 
-        String UserSession = session.getAttribute(SessionConst.ACCOUNT).toString();
+        String UserSession = session.getAttribute(SessionConst.attributeName).toString();
 
         assertThat(reqSession).isEqualTo(UserSession);
 
@@ -177,8 +175,8 @@ class AccountApiControllerTest extends ControllerTest{
 
     @Test
     @DisplayName("[API][Account]회원 가입 실패 테스트 - id value 빈값 validation")
-    public void SignUpTest2() throws Exception{
-        SignupForm signupForm = new SignupForm("","!test123","test@gmail.com");
+    public void SignUpTest2() throws Exception {
+        SignupForm signupForm = new SignupForm("", "!test123", "test@gmail.com");
 
         mockMvc.perform(post("/api/account/signup")
                         .session(session)
@@ -190,8 +188,8 @@ class AccountApiControllerTest extends ControllerTest{
 
     @Test
     @DisplayName("[API][Account]회원 가입 실패 테스트 - id value 숫자가 먼저 나오는 validation")
-    public void SignUpTest3() throws Exception{
-        SignupForm signupForm = new SignupForm("123vasvasv","!test123","test@gmail.com");
+    public void SignUpTest3() throws Exception {
+        SignupForm signupForm = new SignupForm("123vasvasv", "!test123", "test@gmail.com");
 
         mockMvc.perform(post("/api/account/signup")
                         .session(session)
@@ -203,8 +201,8 @@ class AccountApiControllerTest extends ControllerTest{
 
     @Test
     @DisplayName("[API][Account]회원 가입 실패 테스트 - id value 길이가 4자 이상보다 짧을 때 validation")
-    public void SignUpTest4() throws Exception{
-        SignupForm signupForm = new SignupForm("asd","!test123","test@gmail.com");
+    public void SignUpTest4() throws Exception {
+        SignupForm signupForm = new SignupForm("asd", "!test123", "test@gmail.com");
 
         mockMvc.perform(post("/api/account/signup")
                         .session(session)

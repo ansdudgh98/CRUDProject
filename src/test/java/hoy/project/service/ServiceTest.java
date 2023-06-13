@@ -1,12 +1,9 @@
 package hoy.project.service;
 
 import hoy.project.domain.Account;
-import hoy.project.domain.Article;
-import hoy.project.domain.Comment;
 import hoy.project.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,12 +46,9 @@ public class ServiceTest {
     Account testAccount;
 
     @BeforeEach
-    void setup(){
-        testAccount = accountRepository.save(new Account("testid1","!testpassword1","test@gmail.com"));
+    void setup() {
+        testAccount = accountRepository.save(new Account("testid1", "!testpassword1", "test@gmail.com"));
     }
-
-
-
 
 
 }

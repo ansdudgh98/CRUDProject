@@ -17,13 +17,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class CommentServiceImplTest extends ServiceTest{
+class CommentServiceImplTest extends ServiceTest {
 
     Article article;
 
     @BeforeEach
     public void setUpArticle() {
-        article = articleRepository.save(new Article("테스트 게시물1","테스트 내용",testAccount));
+        article = articleRepository.save(new Article("테스트 게시물1", "테스트 내용", testAccount));
     }
 
     @Test
@@ -146,7 +146,7 @@ class CommentServiceImplTest extends ServiceTest{
         List<Comment> list = new ArrayList<>();
 
         for (int i = 0; i < 35; i++) {
-            list.add(new Comment("테스트 게시물 "+i+" 입니다.",testAccount,article));
+            list.add(new Comment("테스트 게시물 " + i + " 입니다.", testAccount, article));
         }
 
         commentRepository.saveAll(list);
@@ -159,9 +159,8 @@ class CommentServiceImplTest extends ServiceTest{
         assertThat(commentList.size()).isEqualTo(10);
 
 
-
-        assertThat(commentList.get(0).getId()).isEqualTo(list.get(commentList.size()-1).getId());
-        assertThat(commentList.get(commentList.size()-1).getId()).isEqualTo(list.get(0).getId());
+        assertThat(commentList.get(0).getId()).isEqualTo(list.get(commentList.size() - 1).getId());
+        assertThat(commentList.get(commentList.size() - 1).getId()).isEqualTo(list.get(0).getId());
         assertThat(commentList.size()).isEqualTo(10);
     }
 
@@ -171,11 +170,10 @@ class CommentServiceImplTest extends ServiceTest{
         List<Comment> list = new ArrayList<>();
 
         for (int i = 0; i < 35; i++) {
-            list.add(new Comment("테스트 게시물 "+i+" 입니다.",testAccount,article));
+            list.add(new Comment("테스트 게시물 " + i + " 입니다.", testAccount, article));
         }
 
         commentRepository.saveAll(list);
-
 
 
         CommentsReadResponse commentsReadResponse = commentService.readCommentLatest10(article.getId(), 3);
@@ -189,15 +187,14 @@ class CommentServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("댓글 읽기 성공 테스트 - 인덱스의 번호가 허용되는 인덱스의 수를 초과하였을때")
-    public void readsCommentListTestIndexNumOver(){
+    public void readsCommentListTestIndexNumOver() {
         List<Comment> list = new ArrayList<>();
 
         for (int i = 0; i < 35; i++) {
-            list.add(new Comment("테스트 게시물 "+i+" 입니다.",testAccount,article));
+            list.add(new Comment("테스트 게시물 " + i + " 입니다.", testAccount, article));
         }
 
         commentRepository.saveAll(list);
-
 
 
         CommentsReadResponse commentsReadResponse = commentService.readCommentLatest10(article.getId(), 4);

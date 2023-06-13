@@ -23,16 +23,16 @@ import java.nio.file.Files;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ArticleServiceImplTest extends ServiceTest{
+class ArticleServiceImplTest extends ServiceTest {
 
     @Value("${server.storage}")
     String path;
 
     @Test
     @DisplayName("게시물 생성 성공 테스트")
-    public void createArticleTest(){
+    public void createArticleTest() {
 
-        Article newArticle = new Article("테스트 게시물1","테스트 내용1",testAccount);
+        Article newArticle = new Article("테스트 게시물1", "테스트 내용1", testAccount);
 
         ArticlePostResponse articlePostResponse = articleService.createArticle(new ArticleCreateForm(
                 newArticle.getTitle(), newArticle.getContent()
@@ -47,22 +47,22 @@ class ArticleServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("게시물 생성 실패 테스트 - form의 제목 값 null")
-    public void createArticleFailTestEmptyFormTitle(){
+    public void createArticleFailTestEmptyFormTitle() {
         ArticleCreateForm articleCreateForm = new ArticleCreateForm(null, "123456");
-        assertThrows(DataIntegrityViolationException.class,()->articleService.createArticle(articleCreateForm,testAccount.getUserId()));
+        assertThrows(DataIntegrityViolationException.class, () -> articleService.createArticle(articleCreateForm, testAccount.getUserId()));
     }
 
     @Test
     @DisplayName("게시물 생성 실패 테스트 - form의 내용 값이 비었을 때")
-    public void createArticleFailTestEmptyFormContent(){
+    public void createArticleFailTestEmptyFormContent() {
         ArticleCreateForm articleCreateForm = new ArticleCreateForm("123123", null);
-        assertThrows(DataIntegrityViolationException.class,()->articleService.createArticle(articleCreateForm,testAccount.getUserId()));
+        assertThrows(DataIntegrityViolationException.class, () -> articleService.createArticle(articleCreateForm, testAccount.getUserId()));
     }
 
     @Test
     @DisplayName("게시물 읽기 성공 테스트")
-    public void readArticleTes1(){
-        Article article = new Article("myArticle","myArticle",testAccount);
+    public void readArticleTes1() {
+        Article article = new Article("myArticle", "myArticle", testAccount);
         articleRepository.save(article);
 
         ArticleReadResponse articleReadResponse = articleService.readArticle(article.getId());
@@ -73,14 +73,14 @@ class ArticleServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("게시물 읽기 실패 테스트 - 없는 게시물 번호 조회")
-    public void readArticleTestNoneArticleId(){
-        assertThrows(IllegalArgumentException.class,()->articleService.readArticle(Long.MAX_VALUE));
+    public void readArticleTestNoneArticleId() {
+        assertThrows(IllegalArgumentException.class, () -> articleService.readArticle(Long.MAX_VALUE));
     }
 
     @Test
     @DisplayName("게시물 수정 성공 테스트")
     public void editArticleTest() {
-        Article article = new Article("myArticle1","myArticle1",testAccount);
+        Article article = new Article("myArticle1", "myArticle1", testAccount);
         articleRepository.save(article);
 
         ArticleEditForm articleEditForm = new ArticleEditForm("수정 테스트 게시물1", "수정 테스트");
@@ -94,20 +94,20 @@ class ArticleServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("게시물 수정 실패 테스트 - 작성자의 account가 다를 때")
-    public void editArticleFailTestDiffAccount(){
-        Article article = new Article("myArticle2","myArticle",testAccount);
+    public void editArticleFailTestDiffAccount() {
+        Article article = new Article("myArticle2", "myArticle", testAccount);
 
         articleRepository.save(article);
 
         ArticleEditForm articleEditForm = new ArticleEditForm("수정 테스트 게시물1", "수정 테스트");
-        Account newAccount = new Account("newid","1234","test@test.com");
-        assertThrows(IllegalArgumentException.class, ()->articleService.editArticle(articleEditForm,article.getId(),newAccount.getUserId()));
+        Account newAccount = new Account("newid", "1234", "test@test.com");
+        assertThrows(IllegalArgumentException.class, () -> articleService.editArticle(articleEditForm, article.getId(), newAccount.getUserId()));
     }
 
     @Test
     @DisplayName("게시물 삭제 성공 테스트")
-    public void deleteArticleTest(){
-        Article article = new Article("myArticle3","myArticle3",testAccount);
+    public void deleteArticleTest() {
+        Article article = new Article("myArticle3", "myArticle3", testAccount);
 
         accountRepository.save(testAccount);
         articleRepository.save(article);
@@ -120,12 +120,12 @@ class ArticleServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("이미지 업로드 성공 테스트 - 이미지 내용이 동일한지 비교한다.")
-    public void imageUploadSameFileContentsTest() throws Exception{
-        
+    public void imageUploadSameFileContentsTest() throws Exception {
+
         String filename = "test.png";
 
         String testPath = "./src/test/resources/static/";
-        MultipartFile file = new MockMultipartFile(filename,filename,"image/png",new FileInputStream(testPath +filename));
+        MultipartFile file = new MockMultipartFile(filename, filename, "image/png", new FileInputStream(testPath + filename));
 
         ImageUploadResponse imageUploadResponse = articleService.saveImage(file, testAccount.getUserId());
 
@@ -138,11 +138,11 @@ class ArticleServiceImplTest extends ServiceTest{
 
     @Test
     @DisplayName("이미지 업로드 성공 테스트 - 이미지의 정보가 데이터베이스에 저장된 정보와 동일한지 비교한다.")
-    public void imageUploadInfoConfirmTest() throws Exception{
+    public void imageUploadInfoConfirmTest() throws Exception {
         String filename = "test.png";
 
         String testPath = "./src/test/resources/static/";
-        MultipartFile file = new MockMultipartFile(filename,filename,"image/png",new FileInputStream(testPath +filename));
+        MultipartFile file = new MockMultipartFile(filename, filename, "image/png", new FileInputStream(testPath + filename));
 
         ImageUploadResponse imageUploadResponse = articleService.saveImage(file, testAccount.getUserId());
         Image image = imageRepository.findImageByAccount_Id(testAccount.getId());
@@ -157,11 +157,10 @@ class ArticleServiceImplTest extends ServiceTest{
     void imageUploadFailTest() throws Exception {
         String filename = "text.txt";
         String testPath = "./src/test/resources/static/";
-        MultipartFile file = new MockMultipartFile(filename,filename,"text/*",new FileInputStream(testPath +filename));
+        MultipartFile file = new MockMultipartFile(filename, filename, "text/*", new FileInputStream(testPath + filename));
 
-        assertThrows(IllegalArgumentException.class,()-> articleService.saveImage(file,testAccount.getUserId()));
+        assertThrows(IllegalArgumentException.class, () -> articleService.saveImage(file, testAccount.getUserId()));
     }
-
 
 
 }
