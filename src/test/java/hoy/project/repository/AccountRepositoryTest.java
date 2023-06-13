@@ -20,9 +20,6 @@ class AccountRepositoryTest {
     @Autowired
     EntityManager em;
 
-
-
-
     @Test
     @DisplayName("Account 생성 테스트")
     @Transactional
