@@ -9,8 +9,11 @@ import hoy.project.api.controller.dto.response.image.ImageUploadResponse;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
 import hoy.project.domain.Image;
+import hoy.project.repository.ArticleRepository;
+import hoy.project.repository.ImageRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mock.web.MockMultipartFile;
@@ -24,6 +27,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ArticleServiceImplTest extends ServiceTest {
+
+    @Autowired
+    ArticleService articleService;
+
+    @Autowired
+    ArticleRepository articleRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     @Value("${server.storage}")
     String path;

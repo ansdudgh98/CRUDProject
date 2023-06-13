@@ -7,9 +7,13 @@ import hoy.project.api.controller.dto.response.reply.ReplyWriteAndEditResponse;
 import hoy.project.domain.Article;
 import hoy.project.domain.Comment;
 import hoy.project.domain.Reply;
+import hoy.project.repository.ArticleRepository;
+import hoy.project.repository.CommentRepository;
+import hoy.project.repository.ReplyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ReplyServiceImplTest extends ServiceTest {
+
+    @Autowired
+    ReplyService replyService;
+
+    @Autowired
+    ArticleRepository articleRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    ReplyRepository replyRepository;
 
     Article article;
     Comment comment;
