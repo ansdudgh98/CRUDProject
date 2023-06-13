@@ -22,6 +22,14 @@ spring:
     console:
       enabled: true
 
+#logging.level:
+#  org.hibernate.SQL: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
 server:
   storage : /Users/moonyoungho/img/
 
