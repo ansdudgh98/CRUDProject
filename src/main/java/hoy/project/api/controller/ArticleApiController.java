@@ -1,25 +1,21 @@
 package hoy.project.api.controller;
 
+import hoy.project.api.controller.argumentresolver.LoginAccountId;
 import hoy.project.api.controller.dto.request.form.ArticleCreateForm;
 import hoy.project.api.controller.dto.request.form.ArticleEditForm;
 import hoy.project.api.controller.dto.response.article.ArticleDeleteResponse;
 import hoy.project.api.controller.dto.response.article.ArticleEditResponse;
 import hoy.project.api.controller.dto.response.article.ArticlePostResponse;
 import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
-import hoy.project.api.controller.argumentresolver.LoginAccountId;
 import hoy.project.api.controller.dto.response.image.ImageUploadResponse;
 import hoy.project.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
-@Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/article")
 public class ArticleApiController {
@@ -28,28 +24,30 @@ public class ArticleApiController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleReadResponse> read(@PathVariable Long id){
-        return ResponseEntity.ok(articleService.readArticle(id));
+    public ArticleReadResponse read(@PathVariable Long id) {
+        return articleService.readArticle(id);
     }
 
     @PostMapping("/post")
-    public ResponseEntity<ArticlePostResponse> post(@Valid @RequestBody ArticleCreateForm form, @LoginAccountId String loginId){
-        return ResponseEntity.ok(articleService.createArticle(form,loginId));
+    public ArticlePostResponse post(@Valid @RequestBody ArticleCreateForm form, @LoginAccountId String loginId) {
+        return articleService.createArticle(form, loginId);
     }
 
     @PostMapping("/edit/{id}")
-    public ResponseEntity<ArticleEditResponse> editArticle(@Valid @RequestBody ArticleEditForm form, @PathVariable Long id, @LoginAccountId String loginId){
-        return ResponseEntity.ok(articleService.editArticle(form, id, loginId));
+    public ArticleEditResponse editArticle(@Valid @RequestBody ArticleEditForm form,
+                                           @PathVariable Long id,
+                                           @LoginAccountId String loginId) {
+        return articleService.editArticle(form, id, loginId);
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseEntity<ArticleDeleteResponse> deleteArticle(@PathVariable Long id,@LoginAccountId String loginId){
-        return ResponseEntity.ok(articleService.deleteArticle(id,loginId));
+    public ArticleDeleteResponse deleteArticle(@PathVariable Long id, @LoginAccountId String loginId) {
+        return articleService.deleteArticle(id, loginId);
     }
 
     @PostMapping("/imageupload")
-    public ResponseEntity<ImageUploadResponse> imageUpload(@RequestParam MultipartFile file, @LoginAccountId String loginId){
-        return ResponseEntity.ok(articleService.saveImage(file,loginId));
+    public ImageUploadResponse imageUpload(@RequestParam MultipartFile file, @LoginAccountId String loginId) {
+        return articleService.saveImage(file, loginId);
     }
 
 

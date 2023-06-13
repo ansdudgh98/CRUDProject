@@ -1,17 +1,16 @@
 package hoy.project.service;
 
-import hoy.project.repository.AccountRepository;
 import hoy.project.domain.Account;
+import hoy.project.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository AccountRepository;
 
@@ -29,7 +28,7 @@ public class AccountServiceImpl implements AccountService{
             throw new IllegalArgumentException("존재하지 않는 아이디 입니다.");
         }
 
-        if(!checkPassword(findAccount.getPassword(),password)){
+        if (!checkPassword(findAccount.getPassword(), password)) {
             throw new IllegalArgumentException("비밀번호를 확인해주세요.");
         }
 
@@ -42,14 +41,12 @@ public class AccountServiceImpl implements AccountService{
     }
 
 
-    private boolean checkPassword(String loginPassword,String password){
-        if(!loginPassword.equals(password)){
+    private boolean checkPassword(String loginPassword, String password) {
+        if (!loginPassword.equals(password)) {
             return false;
         }
         return true;
     }
-
-
 
 
 }

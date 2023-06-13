@@ -14,7 +14,6 @@ import hoy.project.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
 
@@ -36,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService {
         Account account = accountRepository.findByUserId(userId);
         Comment comment = commentRepository.findCommentById(commentId);
 
-        if(comment == null){
+        if (comment == null) {
             throw new IllegalArgumentException("존재하지 않는 댓글에 대댓글을 작성은 불가능 합니다!");
         }
 
@@ -54,7 +54,7 @@ public class ReplyServiceImpl implements ReplyService {
         Reply reply = replyRepository.findReplyById(replyId);
 
 
-        if(reply == null){
+        if (reply == null) {
             throw new IllegalArgumentException("존재하지 않는 대댓글입니다.");
         }
 

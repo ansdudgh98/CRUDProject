@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 public class SignupForm {
 
     @NotEmpty(message = "아이디를 입력해주세요.")
-    @Pattern(regexp = "^[a-z]+[a-z0-9]{4,10}$",message = "올바른 아이디 형식을 입력해주세요.")
+    @Pattern(regexp = "^[a-z]+[a-z0-9]{4,10}$", message = "올바른 아이디 형식을 입력해주세요.")
     private String signupId;
 
     @NotBlank(message = "비밀번호를 입력해주세요.")

@@ -2,7 +2,6 @@ package hoy.project.domain;
 
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -30,7 +29,7 @@ public abstract class BaseEntity {
     @Column(columnDefinition = "tinyint(1)")
     private int active = 1;
 
-    public void deActive(){
+    public void deActive() {
         active = 0;
     }
 }

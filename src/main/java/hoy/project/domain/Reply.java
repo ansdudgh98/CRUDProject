@@ -1,7 +1,6 @@
 package hoy.project.domain;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +9,10 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Reply extends BaseEntity{
+public class Reply extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reply_id")
     private Long id;
 
@@ -34,7 +34,7 @@ public class Reply extends BaseEntity{
         this.account = account;
     }
 
-    public void changeReply(String content){
+    public void changeReply(String content) {
         this.content = content;
     }
 

@@ -6,7 +6,7 @@ public interface AccountService {
 
     Account createAccount(Account Account);
 
-    Account login(String userId,String password);
+    Account login(String userId, String password);
 
     boolean checkUserIdExist(String loginId);
 

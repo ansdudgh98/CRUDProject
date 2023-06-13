@@ -1,6 +1,5 @@
 package hoy.project.domain;
 
-import hoy.project.api.controller.argumentresolver.LoginAccountId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Image extends BaseEntity{
+public class Image extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +34,6 @@ public class Image extends BaseEntity{
         this.capacity = capacity;
         this.account = account;
     }
-
-
-
-
-
 
 
 }

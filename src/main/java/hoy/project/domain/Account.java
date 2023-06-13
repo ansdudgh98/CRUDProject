@@ -10,14 +10,14 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Account extends BaseEntity{
+public class Account extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
 
-    @Column(unique = true, updatable = false,nullable = false)
+    @Column(unique = true, updatable = false, nullable = false)
     private String userId;
 
     @Column(nullable = false)
@@ -33,7 +33,7 @@ public class Account extends BaseEntity{
         this.email = email;
     }
 
-    public static Account createAccount(String userId, String password, String email){
+    public static Account createAccount(String userId, String password, String email) {
         return Account.builder()
                 .userId(userId)
                 .password(password)

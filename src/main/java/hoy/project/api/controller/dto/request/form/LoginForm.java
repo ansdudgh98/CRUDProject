@@ -1,6 +1,7 @@
 package hoy.project.api.controller.dto.request.form;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;

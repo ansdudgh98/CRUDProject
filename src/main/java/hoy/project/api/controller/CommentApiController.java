@@ -8,40 +8,39 @@ import hoy.project.api.controller.dto.response.comment.CommentPostResponse;
 import hoy.project.api.controller.dto.response.comment.CommentsReadResponse;
 import hoy.project.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
-@Slf4j
 public class CommentApiController {
 
 
     private final CommentService commentService;
 
     @PostMapping("/")
-    public ResponseEntity<CommentPostResponse> writeComment(@Valid @RequestBody CommentForm commentForm, @RequestParam(name = "article") Long articleId, @LoginAccountId String userId){
-        return ResponseEntity.ok(commentService.post(commentForm,articleId,userId));
+    public CommentPostResponse writeComment(@Valid @RequestBody CommentForm commentForm,
+                                            @RequestParam(name = "article") Long articleId,
+                                            @LoginAccountId String userId) {
+        return commentService.post(commentForm, articleId, userId);
     }
 
     @PostMapping("/edit/{id}")
-    public ResponseEntity<CommentEditResponse> editComment(@Valid @RequestBody CommentForm commentForm, @PathVariable(name = "id") Long commentId, @LoginAccountId String userId){
-        return ResponseEntity.ok(commentService.edit(commentForm,commentId,userId));
+    public CommentEditResponse editComment(@Valid @RequestBody CommentForm commentForm,
+                                           @PathVariable(name = "id") Long commentId,
+                                           @LoginAccountId String userId) {
+        return commentService.edit(commentForm, commentId, userId);
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseEntity<CommentDeleteResponse> deleteComment(@PathVariable Long id, @LoginAccountId String userId){
-        return ResponseEntity.ok(commentService.delete(id,userId));
+    public CommentDeleteResponse deleteComment(@PathVariable Long id, @LoginAccountId String userId) {
+        return commentService.delete(id, userId);
     }
 
     @GetMapping("/{index}")
-    public ResponseEntity<CommentsReadResponse> readComments10Latest(@RequestParam(name = "article") Long articleId, @PathVariable int index){
-        log.info("readComment");
-        return ResponseEntity.ok(commentService.readCommentLatest10(articleId,index));
+    public CommentsReadResponse readComments10Latest(@RequestParam(name = "article") Long articleId, @PathVariable int index) {
+        return commentService.readCommentLatest10(articleId, index);
     }
 }

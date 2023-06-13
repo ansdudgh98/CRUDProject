@@ -1,6 +1,5 @@
 package hoy.project.api.controller.argumentresolver;
 
-import hoy.project.api.controller.session.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

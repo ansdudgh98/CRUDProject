@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ReplyRepository extends JpaRepository<Reply,Long> {
+public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     @Query(value = "select re from Reply re " +
             "join fetch re.account " +
