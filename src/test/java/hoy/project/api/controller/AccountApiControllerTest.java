@@ -6,6 +6,8 @@ import hoy.project.api.controller.dto.response.CommonErrorResponse;
 import hoy.project.api.controller.dto.response.UserResponse;
 import hoy.project.api.controller.session.SessionConst;
 import hoy.project.domain.Account;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,12 @@ class AccountApiControllerTest extends ControllerTest {
     @BeforeEach
     void initData() {
         account = accountRepository.save(new Account("test1", "!test123", "test@gmail.com"));
+    }
+
+    @AfterEach
+    void destroy() {
+        articleRepository.deleteAllInBatch();
+        accountRepository.deleteAllInBatch();
     }
 
     @Test
@@ -134,20 +142,15 @@ class AccountApiControllerTest extends ControllerTest {
     public void logoutTest() throws Exception {
         session.setAttribute(SessionConst.attributeName, "test123");
 
-
         MvcResult mvcResult = mockMvc.perform(get("/api/account/logout")
                         .session(session))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String reqSession = mvcResult.getRequest()
+        Assertions.assertThatThrownBy(() -> mvcResult.getRequest()
                 .getSession()
                 .getAttribute(SessionConst.attributeName)
-                .toString();
-
-        String UserSession = session.getAttribute(SessionConst.attributeName).toString();
-
-        assertThat(reqSession).isEqualTo(UserSession);
+                .toString());
     }
 
     @Test

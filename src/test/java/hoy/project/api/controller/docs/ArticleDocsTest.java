@@ -4,10 +4,12 @@ import hoy.project.api.controller.dto.request.form.ArticleCreateForm;
 import hoy.project.api.controller.dto.request.form.ArticleEditForm;
 import hoy.project.api.controller.session.SessionConst;
 import hoy.project.domain.Article;
+import hoy.project.repository.ArticleRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ArticleDocsTest extends DocsControllerTest {
 
     Article testArticle;
+
+    @Autowired
+    ArticleRepository articleRepository;
 
     @BeforeEach
     @Transactional

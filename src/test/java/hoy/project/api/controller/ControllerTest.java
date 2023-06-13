@@ -62,11 +62,7 @@ public class ControllerTest {
         session.setAttribute(SessionConst.attributeName, "test1");
     }
 
-    @BeforeEach
-    protected void destroy() {
-        articleRepository.deleteAllInBatch();
-        accountRepository.deleteAllInBatch();
-    }
+
 
 
 }

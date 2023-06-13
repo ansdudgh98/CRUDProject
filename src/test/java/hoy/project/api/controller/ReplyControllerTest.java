@@ -31,7 +31,6 @@ public class ReplyControllerTest extends ControllerTest {
     @Test
     @DisplayName("[API][Reply]대댓글 작성 성공 테스트")
     public void writeCommentTest() throws Exception {
-
         ReplyForm replyForm = new ReplyForm("테스트");
 
         given(replyService.writeReply(any(ReplyForm.class), eq(1L), eq(userId))).willReturn(new ReplyWriteAndEditResponse(1L));

@@ -8,9 +8,12 @@ import hoy.project.api.controller.dto.response.article.ArticleReadResponse;
 import hoy.project.api.controller.session.SessionConst;
 import hoy.project.domain.Account;
 import hoy.project.domain.Article;
+import hoy.project.repository.ImageRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,11 +30,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ArticleApiControllerTest extends ControllerTest {
 
+    @Autowired
+    ImageRepository imageRepository;
+
     @BeforeEach
     void initData() {
         account = accountRepository.save(new Account("test1", "!test123", "test@gmail.com"));
         testArticle = articleRepository.save(new Article("테스트 제목1", "테스트 내용", account));
         session.setAttribute(SessionConst.attributeName, account.getUserId());
+    }
+
+    @AfterEach
+    protected void destroy() {
+        imageRepository.deleteAllInBatch();
+        articleRepository.deleteAllInBatch();
+        accountRepository.deleteAllInBatch();
     }
 
     @Test
